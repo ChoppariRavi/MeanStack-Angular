@@ -1,0 +1,27 @@
+{
+  "name": "meanstack-angular",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChoppariRavi/MeanStack-Angular.git"
+  },
+  "author": "Ravi Choppari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChoppariRavi/MeanStack-Angular/issues"
+  },
+  "homepage": "https://github.com/ChoppariRavi/MeanStack-Angular#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.10",
+    "mongoose-unique-validator": "^1.0.5",
+    "nodemon": "^1.12.0"
+  }
+}
