@@ -1,1 +1,9 @@
 <h1 class="page-header">Home Page</h1>
+<div class="jumbotron">
+  <div class="container">
+    <h1>Hello, world!</h1>
+    <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+    <p *ngIf="!authService.logIn()"><a class="btn btn-primary" routerLink="/register" role="button">REGISTER</a>&nbsp;<a class="btn btn-default" routerLink="/login"  role="button">LOGIN</a></p>
+    <p *ngIf="authService.logIn()"><a class="btn btn-default" routerLink="/blog" role="button">BLOG</a></p>
+  </div>
+</div>

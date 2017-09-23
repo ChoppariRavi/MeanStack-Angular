@@ -1,0 +1,15 @@
+<h1 class="page-header">Profile</h1>
+<div class = "row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{message}}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <ul class="list-group" *ngIf="user">
+      <li class="list-group-item"><strong>Username: </strong>{{user.username}}</li>
+      <li class="list-group-item"><strong>Email: </strong>{{user.email}}</li>
+    </ul>
+  </div>
+</div>

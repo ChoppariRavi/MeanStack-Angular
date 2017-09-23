@@ -1,0 +1,101 @@
+<h1 class="page-header">Blog Feed</h1>
+<!-- Trigger the modal with a button -->
+<!-- <button type="button" class="btn btn-info btn-lg" (click)="openModal()">Open Modal</button> -->
+<br>
+<div class="row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{message}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12" *ngIf="!newPost">
+    <button type="button" class="btn btn-warning" (click)="newPostForm()">New Post</button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span> Reload</button>
+  </div>
+  <br>
+  <br>
+  <div class="col-md-12" *ngIf="newPost">
+    <form [formGroup]="form" role="form" (submit)='saveNewPost()'>
+      <div class="form-group">
+        <label for='title'><strong>Title</strong></label>
+        <div [ngClass]="{'has-error': (form.controls.title.errors && form.controls.title.dirty), 'has-success':form.controls.title.valid}">
+          <input type="text" name="title" id="title" class="form-control" formControlName='title' placeholder="*Blog title" autocomplete='off'/>
+          <ul class="help-block">
+            <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.required">This field is required.</li>
+            <li *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">Must be greater than 5 and less than 30</li>
+            <li *ngIf="(form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation)">Title is must be valid!</li>
+          </ul>
+        </div>
+
+      </div>
+      <div class="form-group">
+        <label for='body'><strong>Body</strong></label>
+        <div [ngClass]="{'has-error': (form.controls.body.errors && form.controls.body.dirty), 'has-success':form.controls.body.valid}">
+          <textarea name="body" rows="3" cols="80" class="form-control" formControlName='body' placeholder="*write body here...."></textarea>
+          <ul class='help-block'>
+            <li *ngIf="form.controls.body.dirty && form.controls.body.error?.required">This is field required.</li>
+            <li *ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">Must be greater than 5 and less than 50</li>
+          </ul>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="button" name="button" class="btn btn-info" (click)="backToPosts()">Back</button>
+        <button [disabled]='processing || !form.valid' type="submit" name="button" class="btn btn-success">Submit</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-12" *ngIf="!newPost">
+
+    <div class="panel panel-primary" *ngFor="let post of posts">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ post.title }}</h3>
+      </div>
+      <div class="panel-body">
+        {{post.body}}
+      </div>
+      <div class="panel-footer">
+        <p><strong>Posted by:</strong> {{post.createdby}}</p>
+        <p><strong>Date:</strong> {{post.createdat}}</p>
+        <p *ngIf="username === post.createdby"><strong>Likes:</strong> {{post.likes}}</p>
+        <p *ngIf="username === post.createdby"><strong>Dislikes:</strong> {{post.dislikes}}</p>
+        <a [routerLink]="['/edit-blog/', post._id]"  *ngIf="username === post.createdby"><button type="button" class="btn btn-primary">Edit</button></a>
+        <!-- <a href="javascript:void(0)" [routerLink]=['/edit-blog', post._id] *ngIf="username === post.createdby"><button type="button" class="btn btn-primary">Edit</button></a> -->
+        <button *ngIf="username === post.createdby" type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal" (click)="openModal(post)" >Delete</button>
+        <button  *ngIf="username !== post.createdby" type="button" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Likes {{post.likes}}</button>
+        <button *ngIf="username !== post.createdby" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-thumbs-down"></span> Dislikes {{post.dislikes}}</button>
+      </div>
+      <!-- List group -->
+      <ul class="list-group">
+        <li class="list-group-item">
+          <button type="button" name="button" class="btn btn-danger">Post Comment</button>
+        </li>
+        <!-- <li class="list-group-item">Dapibus ac facilisis in</li>
+        <li class="list-group-item">Morbi leo risus</li>
+        <li class="list-group-item">Porta ac consectetur ac</li>
+        <li class="list-group-item">Vestibulum at eros</li> -->
+      </ul>
+    </div>
+
+  </div>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog" *ngIf="openDeleteModal">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" (click)="openDeleteModal=false">&times;</button>
+        <h4 class="modal-title">Delete Post</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you would like to delete this blog?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="deleteBlog()">Delete</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="openDeleteModal=false">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
